@@ -33,9 +33,9 @@ namespace WinFormsApp
         private AutomatedTellerMachine CreateAtm()
         {
             var bank = new Bank("MonoBank");
-            bank.Accounts.Add(new Account("2263", "²âàí ²âàíåíêî", "7009", 12000));
-            bank.Accounts.Add(new Account("4444", "Ïåòðî Ïåòðåíêî", "4321", 4000));
-            return new AutomatedTellerMachine("ATM01", "Öåíòð ì³ñòà", 100000, bank);
+            bank.Accounts.Add(new Account("2263", "Іван Іваненко", "7009", 12000));
+            bank.Accounts.Add(new Account("4444", "Петро Петренко", "4321", 4000));
+            return new AutomatedTellerMachine("ATM01", "Центр міста", 100000, bank);
         }
 
         private void SetUiLoggedIn(bool isLoggedIn)
@@ -53,7 +53,17 @@ namespace WinFormsApp
         {
             if (currentAccount == null)
             {
-                MessageBox.Show("Ñïî÷àòêó àâòîðèçóéòåñü.");
+                MessageBox.Show("Спочатку авторизуйтесь.");
+                return false;
+            }
+            return true;
+        }
+
+        private bool TryGetAmount(out decimal amount)
+        {
+            if (!decimal.TryParse(txtAmount.Text, out amount))
+            {
+                MessageBox.Show("Некоректна сума.");
                 return false;
             }
             return true;
@@ -74,21 +84,21 @@ namespace WinFormsApp
         private void btnWithdraw_Click(object sender, EventArgs e)
         {
             if (!EnsureLoggedIn()) return;
-            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Íåêîðåêòíà ñóìà."); return; }
+            if (!TryGetAmount(out var amount)) return;
             atm.Withdraw(currentAccount!, amount);
         }
 
         private void btnDeposit_Click(object sender, EventArgs e)
         {
             if (!EnsureLoggedIn()) return;
-            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Íåêîðåêòíà ñóìà."); return; }
+            if (!TryGetAmount(out var amount)) return;
             atm.Deposit(currentAccount!, amount);
         }
 
         private void btnTransfer_Click(object sender, EventArgs e)
         {
             if (!EnsureLoggedIn()) return;
-            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Íåêîðåêòíà ñóìà."); return; }
+            if (!TryGetAmount(out var amount)) return;
             atm.Transfer(currentAccount!, txtTargetCard.Text, amount);
         }
     }
