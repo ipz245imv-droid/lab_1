@@ -33,9 +33,9 @@ namespace WinFormsApp
         private AutomatedTellerMachine CreateAtm()
         {
             var bank = new Bank("MonoBank");
-            bank.Accounts.Add(new Account("2263", "Іван Іваненко", "7009", 12000));
-            bank.Accounts.Add(new Account("4444", "Петро Петренко", "4321", 4000));
-            return new AutomatedTellerMachine("ATM01", "Центр міста", 100000, bank);
+            bank.Accounts.Add(new Account("2263", "ВІГўГ Г­ ВІГўГ Г­ГҐГ­ГЄГ®", "7009", 12000));
+            bank.Accounts.Add(new Account("4444", "ГЏГҐГІГ°Г® ГЏГҐГІГ°ГҐГ­ГЄГ®", "4321", 4000));
+            return new AutomatedTellerMachine("ATM01", "Г–ГҐГ­ГІГ° Г¬ВіГ±ГІГ ", 100000, bank);
         }
 
         private void SetUiLoggedIn(bool isLoggedIn)
@@ -53,7 +53,7 @@ namespace WinFormsApp
         {
             if (currentAccount == null)
             {
-                MessageBox.Show("Спочатку авторизуйтесь.");
+                MessageBox.Show("Г‘ГЇГ®Г·Г ГІГЄГі Г ГўГІГ®Г°ГЁГ§ГіГ©ГІГҐГ±Гј.");
                 return false;
             }
             return true;
@@ -74,21 +74,21 @@ namespace WinFormsApp
         private void btnWithdraw_Click(object sender, EventArgs e)
         {
             if (!EnsureLoggedIn()) return;
-            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Некоректна сума."); return; }
+            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("ГЌГҐГЄГ®Г°ГҐГЄГІГ­Г  Г±ГіГ¬Г ."); return; }
             atm.Withdraw(currentAccount!, amount);
         }
 
         private void btnDeposit_Click(object sender, EventArgs e)
         {
             if (!EnsureLoggedIn()) return;
-            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Некоректна сума."); return; }
+            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("ГЌГҐГЄГ®Г°ГҐГЄГІГ­Г  Г±ГіГ¬Г ."); return; }
             atm.Deposit(currentAccount!, amount);
         }
 
         private void btnTransfer_Click(object sender, EventArgs e)
         {
             if (!EnsureLoggedIn()) return;
-            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Некоректна сума."); return; }
+            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("ГЌГҐГЄГ®Г°ГҐГЄГІГ­Г  Г±ГіГ¬Г ."); return; }
             atm.Transfer(currentAccount!, txtTargetCard.Text, amount);
         }
     }
