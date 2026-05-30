@@ -19,11 +19,7 @@ namespace WinFormsApp
             btnDeposit.Click += btnDeposit_Click;
             btnTransfer.Click += btnTransfer_Click;
 
-            var bank = new Bank("MonoBank");
-            bank.Accounts.Add(new Account("2263", "Іщенко Максим", "7009", 12000));
-            bank.Accounts.Add(new Account("4444", "Мелещук Диана", "4321", 4000));
-
-            atm = new AutomatedTellerMachine("ATM01", "Центр міста", 100000, bank);
+            atm = CreateAtm();
 
             atm.OnAuthenticate += msg => MessageBox.Show(msg);
             atm.OnBalanceCheck += msg => MessageBox.Show(msg);
@@ -32,6 +28,14 @@ namespace WinFormsApp
             atm.OnTransfer += msg => MessageBox.Show(msg);
 
             SetUiLoggedIn(false);
+        }
+
+        private AutomatedTellerMachine CreateAtm()
+        {
+            var bank = new Bank("MonoBank");
+            bank.Accounts.Add(new Account("2263", "Іван Іваненко", "7009", 12000));
+            bank.Accounts.Add(new Account("4444", "Петро Петренко", "4321", 4000));
+            return new AutomatedTellerMachine("ATM01", "Центр міста", 100000, bank);
         }
 
         private void SetUiLoggedIn(bool isLoggedIn)
@@ -53,62 +57,28 @@ namespace WinFormsApp
 
         private void btnBalance_Click(object sender, EventArgs e)
         {
-            if (currentAccount == null)
-            {
-                MessageBox.Show("Спочатку виконайте авторизацію.");
-                return;
-            }
+            if (currentAccount == null) { MessageBox.Show("Спочатку авторизуйтесь."); return; }
             atm.CheckBalance(currentAccount);
         }
 
         private void btnWithdraw_Click(object sender, EventArgs e)
         {
-            if (currentAccount == null)
-            {
-                MessageBox.Show("Спочатку виконайте авторизацію.");
-                return;
-            }
-
-            if (!decimal.TryParse(txtAmount.Text, out var amount))
-            {
-                MessageBox.Show("Некоректна сума.");
-                return;
-            }
-
+            if (currentAccount == null) { MessageBox.Show("Спочатку авторизуйтесь."); return; }
+            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Некоректна сума."); return; }
             atm.Withdraw(currentAccount, amount);
         }
 
         private void btnDeposit_Click(object sender, EventArgs e)
         {
-            if (currentAccount == null)
-            {
-                MessageBox.Show("Спочатку виконайте авторизацію.");
-                return;
-            }
-
-            if (!decimal.TryParse(txtAmount.Text, out var amount))
-            {
-                MessageBox.Show("Некоректна сума.");
-                return;
-            }
-
+            if (currentAccount == null) { MessageBox.Show("Спочатку авторизуйтесь."); return; }
+            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Некоректна сума."); return; }
             atm.Deposit(currentAccount, amount);
         }
 
         private void btnTransfer_Click(object sender, EventArgs e)
         {
-            if (currentAccount == null)
-            {
-                MessageBox.Show("Спочатку виконайте авторизацію.");
-                return;
-            }
-
-            if (!decimal.TryParse(txtAmount.Text, out var amount))
-            {
-                MessageBox.Show("Некоректна сума.");
-                return;
-            }
-
+            if (currentAccount == null) { MessageBox.Show("Спочатку авторизуйтесь."); return; }
+            if (!decimal.TryParse(txtAmount.Text, out var amount)) { MessageBox.Show("Некоректна сума."); return; }
             atm.Transfer(currentAccount, txtTargetCard.Text, amount);
         }
     }
